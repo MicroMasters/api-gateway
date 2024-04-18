@@ -1,0 +1,10 @@
+{
+  "services": {
+    "userService": {
+      "apiName": "userService",
+      "host": "http://localhost",
+      "port": 808,
+      "url": "http://localhost:8080/api"
+    }
+  }
+}
