@@ -5,6 +5,12 @@
       "host": "http://localhost",
       "port": 808,
       "url": "http://localhost:8080/api"
+    },
+    "productService": {
+      "apiName": "productService",
+      "host": "http://localhost",
+      "port": 808,
+      "url": "http://localhost:8080/api"
     }
   }
 }
