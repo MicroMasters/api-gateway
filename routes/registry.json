@@ -1,17 +1,20 @@
 {
   "services": {
-    "userService": {
-      "apiName": "userService",
-      "host": "http://localhost",
-      "port": 808,
-      "url": "http://localhost:8080/api"
-    },
-    "productService": {
-      "apiName": "productService",
-      "protocol": "http",
-      "host": "localhost",
-      "port": 8080,
-      "url": "http://localhost:8080/"
-    }
+    "registryServices": [
+      {
+        "apiName": "CartService",
+        "protocol": "http",
+        "host": "localhost",
+        "port": 8080,
+        "url": "http://localhost:8080/"
+      },
+      {
+        "apiName": "UserService",
+        "protocol": "http",
+        "host": "localhost",
+        "port": 8000,
+        "url": "http://localhost:8000/"
+      }
+    ]
   }
 }
