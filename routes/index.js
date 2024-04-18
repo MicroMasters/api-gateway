@@ -41,6 +41,15 @@ router.all("/:apiName/:path/:service/:route", (req, res) => {
 
 router.post("/register", (req, res) => {
   const registrationInfo = req.body;
+
+  registrationInfo.url =
+    registrationInfo.protocol +
+    "://" +
+    registrationInfo.host +
+    ":" +
+    registrationInfo.port +
+    "/";
+
   registry.services[registrationInfo.apiName] = { ...registrationInfo };
 
   fs.writeFile("./routes/registry.json", JSON.stringify(registry), (error) => {
@@ -52,5 +61,16 @@ router.post("/register", (req, res) => {
     I;
   });
 });
+
+const apiAlreadyExists = (registrationInfo) => {
+  let exists = false;
+  registry.services[registrationInfo.apiName].forEach((instance) => {
+    if (instance.url === registrationInfo.url) {
+      exists = true;
+      return I;
+    }
+  });
+  return exists;
+};
 
 module.exports = router;

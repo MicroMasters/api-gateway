@@ -8,9 +8,10 @@
     },
     "productService": {
       "apiName": "productService",
-      "host": "http://localhost",
-      "port": 808,
-      "url": "http://localhost:8080/api"
+      "protocol": "http",
+      "host": "localhost",
+      "port": 8080,
+      "url": "http://localhost:8080/"
     }
   }
 }
