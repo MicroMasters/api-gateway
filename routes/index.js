@@ -62,22 +62,6 @@ router.post("/register", (req, res) => {
   }
 });
 
-const apiAlreadyExists = (registrationInfo) => {
-  let exists = false;
-
-  if (registry.services.registryServices.length > 0) {
-    registry.services.registryServices.forEach((service) => {
-      if (
-        service.host === registrationInfo.host &&
-        service.port === registrationInfo.port
-      ) {
-        exists = true;
-      }
-    });
-  }
-  return exists;
-};
-
 router.post("/unregister", (req, res) => {
   const registrationInfo = req.body;
   if (apiAlreadyExists(registrationInfo)) {
@@ -111,5 +95,21 @@ router.post("/unregister", (req, res) => {
     );
   }
 });
+
+const apiAlreadyExists = (registrationInfo) => {
+  let exists = false;
+
+  if (registry.services.registryServices.length > 0) {
+    registry.services.registryServices.forEach((service) => {
+      if (
+        service.host === registrationInfo.host &&
+        service.port === registrationInfo.port
+      ) {
+        exists = true;
+      }
+    });
+  }
+  return exists;
+};
 
 module.exports = router;
