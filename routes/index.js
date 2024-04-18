@@ -3,22 +3,33 @@ const router = express.Router();
 const axios = require("axios");
 const registry = require("./registry.json");
 const fs = require("fs");
+const loadbalancer = require("../util/loadbalancer");
 
 router.all("/:apiName/:path/:service/:route", (req, res) => {
-  if (registry.services[req.params.apiName]) {
-    axios({
-      method: req.method,
-      url: `${registry.services[req.params.apiName].url}/${req.params.path}/${
-        req.params.service
-      }/${req.params.route}`,
-      headers: req.headers,
-      data: req.body,
-    }).then((response) => {
-      res.send(response.data);
-    });
-  } else {
-    res.send("API Name doesn't exist");
-  }
+  registry.services.registryServices.instances.forEach((service) => {
+    if (service.apiName === req.params.apiName) {
+      const newIndex = loadbalancer[
+        registry.services.registryServices.LoadBalanceStrategy
+      ](registry.services);
+
+      const url = registry.services.registryServices.instances[newIndex].url;
+
+      axios({
+        method: req.method,
+        url: `${url}/${req.params.path}/${req.params.service}/${req.params.route}`,
+        headers: req.headers,
+        data: req.body,
+      })
+        .then((response) => {
+          res.send(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      res.send("API Name doesn't exist");
+    }
+  });
 });
 
 router.post("/register", (req, res) => {
@@ -42,7 +53,7 @@ router.post("/register", (req, res) => {
     );
     return;
   } else {
-    registry.services.registryServices.push({
+    registry.services.registryServices.instances.push({
       ...registrationInfo,
     });
 
@@ -99,8 +110,8 @@ router.post("/unregister", (req, res) => {
 const apiAlreadyExists = (registrationInfo) => {
   let exists = false;
 
-  if (registry.services.registryServices.length > 0) {
-    registry.services.registryServices.forEach((service) => {
+  if (registry.services.registryServices.instances.length > 0) {
+    registry.services.registryServices.instances.forEach((service) => {
       if (
         service.host === registrationInfo.host &&
         service.port === registrationInfo.port
