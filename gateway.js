@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const helmet = require("helmet");
 const PORT = 3000;
 const routes = require("./routes");
 const { default: helmet } = require("helmet");
