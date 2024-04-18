@@ -1,13 +1,17 @@
 {
   "services": {
-    "registryServices": [
-      {
-        "apiName": "CartService",
-        "protocol": "http",
-        "host": "localhost",
-        "port": 8080,
-        "url": "http://localhost:8080/"
-      }
-    ]
+    "registryServices": {
+      "LoadBalanceStrategy": "ROUND_ROBIN",
+      "index": 0,
+      "instances": [
+        {
+          "apiName": "userService",
+          "protocol": "http",
+          "host": "localhost",
+          "port": 8080,
+          "url": "http://localhost:8080/api"
+        }
+      ]
+    }
   }
 }
